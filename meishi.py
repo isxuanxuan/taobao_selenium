@@ -35,10 +35,13 @@ def get_products():
     sel = html.fromstring(page)
     items = sel.xpath('//div[@id="mainsrp-itemlist"]//div[@class="items"]/div')
     for item in items:
+        for title in item.xpath('.//div[@class="row row-2 title"]/a'):
+            span = title.xpath('string(.)')
+
         product = {'店铺名称':item.xpath('.//div[@class="shop"]/a/span[2]/text()')[0],
-                   '名称':item.xpath('.//div[@class="title"]/a/descendant-or-self::text()'),
-                   '价格':'￥' + item.xpath('.//div[@class="price g_price g_price-highlight"]/strong/text()')[0],
-                   '地区':item.xpath('.//div[@class="location"]/text()')[0]}
+                   '名称':span.strip(),
+                    '价格':'￥' + item.xpath('.//div[@class="price g_price g_price-highlight"]/strong/text()')[0],
+                    '地区':item.xpath('.//div[@class="location"]/text()')[0]}
 
         print(product)
 def main():
